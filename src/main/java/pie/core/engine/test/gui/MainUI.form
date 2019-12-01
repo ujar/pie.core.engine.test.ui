@@ -149,9 +149,9 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace pref="28" max="32767" attributes="0"/>
-                                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="smsAdapterButtonStart" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jButton1" min="-2" pref="81" max="-2" attributes="0"/>
+                                  <Component id="smsAdapterButtonStop" min="-2" pref="81" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -161,8 +161,8 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="smsAdapterButtonStart" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="smsAdapterButtonStop" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
@@ -170,7 +170,7 @@
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JButton" name="jButton1">
+                        <Component class="javax.swing.JButton" name="smsAdapterButtonStop">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -178,13 +178,16 @@
                             <Property name="text" type="java.lang.String" value="Stop"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton2">
+                        <Component class="javax.swing.JButton" name="smsAdapterButtonStart">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="Start"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="smsAdapterButtonStartActionPerformed"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -252,9 +255,9 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace pref="28" max="32767" attributes="0"/>
-                                      <Component id="jButton6" min="-2" max="-2" attributes="0"/>
+                                      <Component id="emailAdapterButtonStart" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jButton5" min="-2" pref="81" max="-2" attributes="0"/>
+                                      <Component id="emailAdapterButtonStop" min="-2" pref="81" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -264,8 +267,8 @@
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="emailAdapterButtonStart" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="emailAdapterButtonStop" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
@@ -273,21 +276,27 @@
                             </DimensionLayout>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JButton" name="jButton5">
+                            <Component class="javax.swing.JButton" name="emailAdapterButtonStop">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Stop"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailAdapterButtonStopActionPerformed"/>
+                              </Events>
                             </Component>
-                            <Component class="javax.swing.JButton" name="jButton6">
+                            <Component class="javax.swing.JButton" name="emailAdapterButtonStart">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Start"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailAdapterButtonStartActionPerformed"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>

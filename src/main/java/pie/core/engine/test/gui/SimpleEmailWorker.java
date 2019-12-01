@@ -1,6 +1,7 @@
 package pie.core.engine.test.gui;
 
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import pie.core.adapter.AbstractWorkerAdapter;
@@ -13,18 +14,18 @@ import pie.core.engine.Event;
  * @email saiful.raju@gmail.com
  * 
  */
-public class SimpleWorker extends AbstractWorkerAdapter{
+public class SimpleEmailWorker extends AbstractWorkerAdapter{
 
     
     
     
     @Deprecated
-    public SimpleWorker() {
+    public SimpleEmailWorker() {
         this.setWakeupDelay(120);
         this.setTimeUnit(TimeUnit.SECONDS);
     }
 
-    public SimpleWorker(long wakeupDelay, TimeUnit timeUnit) {
+    public SimpleEmailWorker(long wakeupDelay, TimeUnit timeUnit) {
         this.setWakeupDelay(wakeupDelay);
         this.setTimeUnit(timeUnit);
     }
@@ -37,12 +38,14 @@ public class SimpleWorker extends AbstractWorkerAdapter{
     @Override
     public List<Event> loadRealTime() {
         //
+        System.out.println("this is load real time method inside " + this.getClass().getName());
         return null;
     }
 
     @Override
     public List<Event> loadFromPersistant() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         List<Event> list = new LinkedList<Event>();
+         return list;
     }
 
     @Override

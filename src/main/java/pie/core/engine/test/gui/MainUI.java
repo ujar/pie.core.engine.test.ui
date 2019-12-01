@@ -1,9 +1,14 @@
 package pie.core.engine.test.gui;
 
+import java.util.concurrent.TimeUnit;
 import pie.core.engine.EngineFactory;
 import pie.core.engine.IEngine;
 import pie.core.engine.security.SimpleConfiguration;
 import pie.core.engine.security.UserCredential;
+import pie.core.engine.worker.COMMAND;
+import pie.core.engine.worker.CommandWorker;
+import pie.core.engine.worker.IWorkListener;
+import pie.core.engine.worker.IWorker;
 
 
 
@@ -13,8 +18,12 @@ import pie.core.engine.security.UserCredential;
  * @email saiful.raju@gmail.com
  * 
  */
-public class MainUI extends javax.swing.JFrame {
+public class MainUI extends javax.swing.JFrame  implements IWorkListener{
 
+   private  SimpleEmailWorker simpleEmailWorker = null;
+   private SimpleSMSWorker simpleSMSWorker  = null;
+   private CommandWorker emailCommandWorker = null;
+   private CommandWorker smsCommandWorker = null;
     /**
      * Creates new form MainUI
      */
@@ -40,14 +49,14 @@ public class MainUI extends javax.swing.JFrame {
         topPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         right = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        smsAdapterButtonStop = new javax.swing.JButton();
+        smsAdapterButtonStart = new javax.swing.JButton();
         left = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         right1 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        emailAdapterButtonStop = new javax.swing.JButton();
+        emailAdapterButtonStart = new javax.swing.JButton();
         left1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         bottomPanel = new javax.swing.JPanel();
@@ -105,11 +114,16 @@ public class MainUI extends javax.swing.JFrame {
 
         right.setPreferredSize(new java.awt.Dimension(200, 0));
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Stop");
+        smsAdapterButtonStop.setBackground(new java.awt.Color(255, 255, 255));
+        smsAdapterButtonStop.setText("Stop");
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Start");
+        smsAdapterButtonStart.setBackground(new java.awt.Color(255, 255, 255));
+        smsAdapterButtonStart.setText("Start");
+        smsAdapterButtonStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                smsAdapterButtonStartActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout rightLayout = new javax.swing.GroupLayout(right);
         right.setLayout(rightLayout);
@@ -117,9 +131,9 @@ public class MainUI extends javax.swing.JFrame {
             rightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightLayout.createSequentialGroup()
                 .addContainerGap(28, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(smsAdapterButtonStart)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(smsAdapterButtonStop, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         rightLayout.setVerticalGroup(
@@ -127,8 +141,8 @@ public class MainUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(rightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(smsAdapterButtonStart)
+                    .addComponent(smsAdapterButtonStop))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -159,11 +173,21 @@ public class MainUI extends javax.swing.JFrame {
 
         right1.setPreferredSize(new java.awt.Dimension(200, 0));
 
-        jButton5.setBackground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Stop");
+        emailAdapterButtonStop.setBackground(new java.awt.Color(255, 255, 255));
+        emailAdapterButtonStop.setText("Stop");
+        emailAdapterButtonStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailAdapterButtonStopActionPerformed(evt);
+            }
+        });
 
-        jButton6.setBackground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Start");
+        emailAdapterButtonStart.setBackground(new java.awt.Color(255, 255, 255));
+        emailAdapterButtonStart.setText("Start");
+        emailAdapterButtonStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailAdapterButtonStartActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout right1Layout = new javax.swing.GroupLayout(right1);
         right1.setLayout(right1Layout);
@@ -171,9 +195,9 @@ public class MainUI extends javax.swing.JFrame {
             right1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(right1Layout.createSequentialGroup()
                 .addContainerGap(28, Short.MAX_VALUE)
-                .addComponent(jButton6)
+                .addComponent(emailAdapterButtonStart)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(emailAdapterButtonStop, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         right1Layout.setVerticalGroup(
@@ -181,8 +205,8 @@ public class MainUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, right1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(right1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
-                    .addComponent(jButton5))
+                    .addComponent(emailAdapterButtonStart)
+                    .addComponent(emailAdapterButtonStop))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -246,7 +270,12 @@ public class MainUI extends javax.swing.JFrame {
     private void buttonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStartActionPerformed
         // TODO add your handling code here:
         IEngine engine = EngineFactory.getEngine();
-        engine.start(new SimpleConfiguration(10, 10, new UserCredential("", ""), false));
+        if(!engine.isRunning()){
+            engine.start(new SimpleConfiguration(10, 10, new UserCredential("", ""), false));
+        } else {
+            
+        }
+        
     }//GEN-LAST:event_buttonStartActionPerformed
 
     private void buttonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStopActionPerformed
@@ -254,6 +283,42 @@ public class MainUI extends javax.swing.JFrame {
         EngineFactory.getEngine().stop();
     }//GEN-LAST:event_buttonStopActionPerformed
 
+    private void emailAdapterButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailAdapterButtonStopActionPerformed
+        // TODO add your handling code here:
+         
+        
+    }//GEN-LAST:event_emailAdapterButtonStopActionPerformed
+
+    private void emailAdapterButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailAdapterButtonStartActionPerformed
+        // TODO add your handling code here:
+        if (!EngineFactory.getEngine().isStop(SimpleEmailWorker.class)) {
+            //engineController.showMessage("Earthquake  adapter is already started and running");
+            return;
+        }
+        simpleEmailWorker = new SimpleEmailWorker(5, TimeUnit.SECONDS);
+//        emailCommandWorker = new CommandWorker
+                
+                 emailCommandWorker = new CommandWorker("RF", true, simpleEmailWorker,
+                COMMAND.LOAD_REALTIME);
+        EngineFactory.getEngine().runWork(emailCommandWorker,this);
+        
+    }//GEN-LAST:event_emailAdapterButtonStartActionPerformed
+
+    private void smsAdapterButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smsAdapterButtonStartActionPerformed
+        // TODO add your handling code here:
+        if (!EngineFactory.getEngine().isStop(SimpleSMSWorker.class)) {
+            //engineController.showMessage("Earthquake  adapter is already started and running");
+            return;
+        }
+        simpleSMSWorker = new SimpleSMSWorker(5, TimeUnit.SECONDS);
+//        emailCommandWorker = new CommandWorker
+                
+                 smsCommandWorker = new CommandWorker("RF", true, simpleSMSWorker,
+                COMMAND.LOAD_REALTIME);
+        EngineFactory.getEngine().runWork(smsCommandWorker,this);
+    }//GEN-LAST:event_smsAdapterButtonStartActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -295,10 +360,8 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton buttonStop;
     private javax.swing.JScrollPane displayPane;
     private javax.swing.JTextArea displayTextArea;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton emailAdapterButtonStart;
+    private javax.swing.JButton emailAdapterButtonStop;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -310,6 +373,33 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JPanel right;
     private javax.swing.JPanel right1;
     private javax.swing.JPanel rightPanel;
+    private javax.swing.JButton smsAdapterButtonStart;
+    private javax.swing.JButton smsAdapterButtonStop;
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void finished(IWorker worker) {
+         System.out.println("finished():  " + worker.getId());
+    }
+
+    @Override
+    public void workerAdapterIsShutdown(IWorker worker) {
+        System.out.println("workerAdapterIsShutdown():   " + worker.getId());
+    }
+
+    @Override
+    public void workerAdapterIsStarted(IWorker worker) {
+        System.out.println("workerAdapterIsStarted():   " + worker.getId());
+    }
+
+    @Override
+    public void workIsProcessing(IWorker worker) {
+        System.out.println("workIsProcessing():   " + worker.getId());
+    }
+
+    @Override
+    public String getSourceName() {
+      return MainUI.class.getName();
+    }
 }
