@@ -5,6 +5,7 @@ import pie.core.engine.EngineFactory;
 import pie.core.engine.IEngine;
 import pie.core.engine.security.SimpleConfiguration;
 import pie.core.engine.security.UserCredential;
+import pie.core.engine.util.PieLogger;
 import pie.core.engine.worker.COMMAND;
 import pie.core.engine.worker.CommandWorker;
 import pie.core.engine.worker.IWorkListener;
@@ -116,6 +117,11 @@ public class MainUI extends javax.swing.JFrame  implements IWorkListener{
 
         smsAdapterButtonStop.setBackground(new java.awt.Color(255, 255, 255));
         smsAdapterButtonStop.setText("Stop");
+        smsAdapterButtonStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                smsAdapterButtonStopActionPerformed(evt);
+            }
+        });
 
         smsAdapterButtonStart.setBackground(new java.awt.Color(255, 255, 255));
         smsAdapterButtonStart.setText("Start");
@@ -273,19 +279,30 @@ public class MainUI extends javax.swing.JFrame  implements IWorkListener{
         if(!engine.isRunning()){
             engine.start(new SimpleConfiguration(10, 10, new UserCredential("", ""), false));
         } else {
-            
+            PieLogger.log("Engine is running ");
         }
         
     }//GEN-LAST:event_buttonStartActionPerformed
 
     private void buttonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStopActionPerformed
         // TODO add your handling code here:
-        EngineFactory.getEngine().stop();
+        IEngine engine = EngineFactory.getEngine();
+         if(engine.isRunning()){
+             EngineFactory.getEngine().stop();
+         } else {
+             PieLogger.log("Engine is not running ");
+         }
+        
     }//GEN-LAST:event_buttonStopActionPerformed
 
     private void emailAdapterButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailAdapterButtonStopActionPerformed
         // TODO add your handling code here:
-         
+        IEngine engine = EngineFactory.getEngine();
+          if (engine.isStop(SimpleEmailWorker.class)) {
+            PieLogger.log("Email  adapter is not running");
+            return;
+        }
+        engine.cancel(emailCommandWorker);
         
     }//GEN-LAST:event_emailAdapterButtonStopActionPerformed
 
@@ -317,6 +334,17 @@ public class MainUI extends javax.swing.JFrame  implements IWorkListener{
                 COMMAND.LOAD_REALTIME);
         EngineFactory.getEngine().runWork(smsCommandWorker,this);
     }//GEN-LAST:event_smsAdapterButtonStartActionPerformed
+
+    private void smsAdapterButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_smsAdapterButtonStopActionPerformed
+        // TODO add your handling code here:
+        
+         IEngine engine = EngineFactory.getEngine();
+          if (engine.isStop(SimpleSMSWorker.class)) {
+            PieLogger.log("SMS  adapter is not running");
+            return;
+        }
+        engine.cancel(smsCommandWorker);
+    }//GEN-LAST:event_smsAdapterButtonStopActionPerformed
 
     
     /**
